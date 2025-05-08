@@ -26,8 +26,7 @@ function AppSettingsPage() {
             <input
               type="text"
               className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-blue-500 focus:border-blue-500"
-              placeholder="https://codecanyon.net/item/a-single-multibranch-restaurant-vendor-app-iosandroid/45828823?s..."
-              defaultValue="https://codecanyon.net/item/a-single-multibranch-restaurant-vendor-app-iosandroid/45828823?s..."
+              placeholder="Enter iOS vendor app link here"
             />
           </div>
 
@@ -37,8 +36,7 @@ function AppSettingsPage() {
             <input
               type="text"
               className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-blue-500 focus:border-blue-500"
-              placeholder="https://codecanyon.net/item/a-single-multibranch-restaurant-vendor-app-iosandroid/45828823?s..."
-              defaultValue="https://codecanyon.net/item/a-single-multibranch-restaurant-vendor-app-iosandroid/45828823?s..."
+              placeholder="Enter Android vendor app link here"
             />
           </div>
 
@@ -48,8 +46,7 @@ function AppSettingsPage() {
             <input
               type="text"
               className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-blue-500 focus:border-blue-500"
-              placeholder="https://codecanyon.net/item/a-single-multibranch-restaurant-delivery-app-iosandroid/45828976?s..."
-              defaultValue="https://codecanyon.net/item/a-single-multibranch-restaurant-delivery-app-iosandroid/45828976?s..."
+              placeholder="Enter iOS delivery app link here"
             />
           </div>
 
@@ -59,8 +56,7 @@ function AppSettingsPage() {
             <input
               type="text"
               className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-blue-500 focus:border-blue-500"
-              placeholder="https://codecanyon.net/item/a-single-multibranch-restaurant-delivery-app-iosandroid/45828976?s..."
-              defaultValue="https://codecanyon.net/item/a-single-multibranch-restaurant-delivery-app-iosandroid/45828976?s..."
+              placeholder="Enter Android delivery app link here"
             />
           </div>
 
@@ -70,8 +66,7 @@ function AppSettingsPage() {
             <input
               type="text"
               className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-blue-500 focus:border-blue-500"
-              placeholder="https://codecanyon.net/item/a-single-multibranch-restaurant-grocery-store-food-ordering-and-deliv..."
-              defaultValue="https://codecanyon.net/item/a-single-multibranch-restaurant-grocery-store-food-ordering-and-deliv..."
+              placeholder="Enter iOS customer app link here"
             />
           </div>
 
@@ -81,8 +76,7 @@ function AppSettingsPage() {
             <input
               type="text"
               className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-blue-500 focus:border-blue-500"
-              placeholder="https://codecanyon.net/item/a-single-multibranch-restaurant-grocery-store-food-ordering-and-deliv..."
-              defaultValue="https://codecanyon.net/item/a-single-multibranch-restaurant-grocery-store-food-ordering-and-deliv..."
+              placeholder="Enter Android customer app link here"
             />
           </div>
         </div>
