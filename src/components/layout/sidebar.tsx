@@ -2,6 +2,7 @@
 
 import React, { useState } from "react"
 import Link from "next/link"
+import { usePathname } from "next/navigation"
 import { 
   LayoutDashboard, 
   ShoppingCart,
@@ -58,6 +59,8 @@ import {
 } from "lucide-react"
 
 function Sidebar() {
+  const pathname = usePathname()
+  
   const [expandedMenus, setExpandedMenus] = useState({
     orders: false,
     products: false,
@@ -130,7 +133,9 @@ function Sidebar() {
         <div className="space-y-1">
           <Link
             href="/"
-            className="flex items-center px-3 py-2 text-sm font-medium rounded-md bg-blue-50 text-gray-900"
+            className={`flex items-center px-3 py-2 text-sm font-medium rounded-md ${
+              pathname === "/" ? "bg-blue-50 text-gray-900" : "text-gray-600 hover:bg-gray-50 hover:text-gray-900"
+            }`}
           >
             <LayoutDashboard className="mr-3 h-5 w-5 text-gray-600" />
             Dashboard
@@ -138,7 +143,9 @@ function Sidebar() {
 
           <Link
             href="/pos"
-            className="flex items-center px-3 py-2 text-sm font-medium rounded-md text-gray-600 hover:bg-gray-50 hover:text-gray-900"
+            className={`flex items-center px-3 py-2 text-sm font-medium rounded-md ${
+              pathname === "/pos" ? "bg-blue-50 text-gray-900" : "text-gray-600 hover:bg-gray-50 hover:text-gray-900"
+            }`}
           >
             <ShoppingCart className="mr-3 h-5 w-5 text-gray-600" />
             POS
@@ -158,6 +165,53 @@ function Sidebar() {
               Orders
               <ChevronDown className={`ml-auto h-5 w-5 text-gray-400 transition-transform ${expandedMenus.orders ? 'transform rotate-180' : ''}`} />
             </button>
+
+            {expandedMenus.orders && (
+              <div className="pl-10 space-y-1">
+                <Link
+                  href="/orders/all"
+                  className="flex items-center px-3 py-2 text-sm font-medium rounded-md text-gray-600 hover:bg-gray-50 hover:text-gray-900"
+                >
+                  <span className="w-1 h-1 bg-gray-600 rounded-full mr-2"></span>
+                  All
+                </Link>
+                <Link
+                  href="/orders/delivery"
+                  className="flex items-center px-3 py-2 text-sm font-medium rounded-md text-gray-600 hover:bg-gray-50 hover:text-gray-900"
+                >
+                  <span className="w-1 h-1 bg-gray-600 rounded-full mr-2"></span>
+                  Delivery Orders
+                </Link>
+                <Link
+                  href="/orders/pickup"
+                  className="flex items-center px-3 py-2 text-sm font-medium rounded-md text-gray-600 hover:bg-gray-50 hover:text-gray-900"
+                >
+                  <span className="w-1 h-1 bg-gray-600 rounded-full mr-2"></span>
+                  Pickup orders
+                </Link>
+                <Link
+                  href="/orders/dine-in"
+                  className="flex items-center px-3 py-2 text-sm font-medium rounded-md text-gray-600 hover:bg-gray-50 hover:text-gray-900"
+                >
+                  <span className="w-1 h-1 bg-gray-600 rounded-full mr-2"></span>
+                  Dine-in orders
+                </Link>
+                <Link
+                  href="/orders/scheduled"
+                  className="flex items-center px-3 py-2 text-sm font-medium rounded-md text-gray-600 hover:bg-gray-50 hover:text-gray-900"
+                >
+                  <span className="w-1 h-1 bg-gray-600 rounded-full mr-2"></span>
+                  Scheduled orders
+                </Link>
+                <Link
+                  href="/orders/refunds"
+                  className="flex items-center px-3 py-2 text-sm font-medium rounded-md text-gray-600 hover:bg-gray-50 hover:text-gray-900"
+                >
+                  <span className="w-1 h-1 bg-gray-600 rounded-full mr-2"></span>
+                  Refunds
+                </Link>
+              </div>
+            )}
 
             <Link
               href="/order-statuses"
@@ -207,6 +261,25 @@ function Sidebar() {
               <ChevronDown className={`ml-auto h-5 w-5 text-gray-400 transition-transform ${expandedMenus.products ? 'transform rotate-180' : ''}`} />
             </button>
 
+            {expandedMenus.products && (
+              <div className="pl-10 space-y-1">
+                <Link
+                  href="/products/categories"
+                  className="flex items-center px-3 py-2 text-sm font-medium rounded-md text-gray-600 hover:bg-gray-50 hover:text-gray-900"
+                >
+                  <span className="w-1 h-1 bg-gray-600 rounded-full mr-2"></span>
+                  Product categories
+                </Link>
+                <Link
+                  href="/products/list"
+                  className="flex items-center px-3 py-2 text-sm font-medium rounded-md text-gray-600 hover:bg-gray-50 hover:text-gray-900"
+                >
+                  <span className="w-1 h-1 bg-gray-600 rounded-full mr-2"></span>
+                  Product list
+                </Link>
+              </div>
+            )}
+
             <Link
               href="/addons"
               className="flex items-center px-3 py-2 text-sm font-medium rounded-md text-gray-600 hover:bg-gray-50 hover:text-gray-900"
@@ -224,6 +297,25 @@ function Sidebar() {
               <ChevronDown className={`ml-auto h-5 w-5 text-gray-400 transition-transform ${expandedMenus.extras ? 'transform rotate-180' : ''}`} />
             </button>
 
+            {expandedMenus.extras && (
+              <div className="pl-10 space-y-1">
+                <Link
+                  href="/extras/groups"
+                  className="flex items-center px-3 py-2 text-sm font-medium rounded-md text-gray-600 hover:bg-gray-50 hover:text-gray-900"
+                >
+                  <span className="w-1 h-1 bg-gray-600 rounded-full mr-2"></span>
+                  Extra groups
+                </Link>
+                <Link
+                  href="/extras/values"
+                  className="flex items-center px-3 py-2 text-sm font-medium rounded-md text-gray-600 hover:bg-gray-50 hover:text-gray-900"
+                >
+                  <span className="w-1 h-1 bg-gray-600 rounded-full mr-2"></span>
+                  Extra values
+                </Link>
+              </div>
+            )}
+
             <Link
               href="/discounts"
               className="flex items-center px-3 py-2 text-sm font-medium rounded-md text-gray-600 hover:bg-gray-50 hover:text-gray-900"
@@ -240,6 +332,25 @@ function Sidebar() {
               Recipes
               <ChevronDown className={`ml-auto h-5 w-5 text-gray-400 transition-transform ${expandedMenus.recipes ? 'transform rotate-180' : ''}`} />
             </button>
+
+            {expandedMenus.recipes && (
+              <div className="pl-10 space-y-1">
+                <Link
+                  href="/recipes/categories"
+                  className="flex items-center px-3 py-2 text-sm font-medium rounded-md text-gray-600 hover:bg-gray-50 hover:text-gray-900"
+                >
+                  <span className="w-1 h-1 bg-gray-600 rounded-full mr-2"></span>
+                  Recipe categories
+                </Link>
+                <Link
+                  href="/recipes/list"
+                  className="flex items-center px-3 py-2 text-sm font-medium rounded-md text-gray-600 hover:bg-gray-50 hover:text-gray-900"
+                >
+                  <span className="w-1 h-1 bg-gray-600 rounded-full mr-2"></span>
+                  Recipe list
+                </Link>
+              </div>
+            )}
           </div>
         </div>
 
@@ -296,6 +407,32 @@ function Sidebar() {
               <ChevronDown className={`ml-auto h-5 w-5 text-gray-400 transition-transform ${expandedMenus.reservationSetup ? 'transform rotate-180' : ''}`} />
             </button>
 
+            {expandedMenus.reservationSetup && (
+              <div className="pl-10 space-y-1">
+                <Link
+                  href="/reservation/zones"
+                  className="flex items-center px-3 py-2 text-sm font-medium rounded-md text-gray-600 hover:bg-gray-50 hover:text-gray-900"
+                >
+                  <span className="w-1 h-1 bg-gray-600 rounded-full mr-2"></span>
+                  Reservation zones
+                </Link>
+                <Link
+                  href="/reservation/tables-qr"
+                  className="flex items-center px-3 py-2 text-sm font-medium rounded-md text-gray-600 hover:bg-gray-50 hover:text-gray-900"
+                >
+                  <span className="w-1 h-1 bg-gray-600 rounded-full mr-2"></span>
+                  Tables & QR codes
+                </Link>
+                <Link
+                  href="/reservation/time"
+                  className="flex items-center px-3 py-2 text-sm font-medium rounded-md text-gray-600 hover:bg-gray-50 hover:text-gray-900"
+                >
+                  <span className="w-1 h-1 bg-gray-600 rounded-full mr-2"></span>
+                  Reservation time
+                </Link>
+              </div>
+            )}
+
             <button
               onClick={() => toggleMenu('reservations')}
               className="w-full flex items-center px-3 py-2 text-sm font-medium rounded-md text-gray-600 hover:bg-gray-50 hover:text-gray-900"
@@ -304,6 +441,25 @@ function Sidebar() {
               Reservations
               <ChevronDown className={`ml-auto h-5 w-5 text-gray-400 transition-transform ${expandedMenus.reservations ? 'transform rotate-180' : ''}`} />
             </button>
+
+            {expandedMenus.reservations && (
+              <div className="pl-10 space-y-1">
+                <Link
+                  href="/reservations/list"
+                  className="flex items-center px-3 py-2 text-sm font-medium rounded-md text-gray-600 hover:bg-gray-50 hover:text-gray-900"
+                >
+                  <span className="w-1 h-1 bg-gray-600 rounded-full mr-2"></span>
+                  Reservation list
+                </Link>
+                <Link
+                  href="/reservations/new"
+                  className="flex items-center px-3 py-2 text-sm font-medium rounded-md text-gray-600 hover:bg-gray-50 hover:text-gray-900"
+                >
+                  <span className="w-1 h-1 bg-gray-600 rounded-full mr-2"></span>
+                  New reservation
+                </Link>
+              </div>
+            )}
           </div>
         </div>
 
@@ -344,6 +500,25 @@ function Sidebar() {
               Careers
               <ChevronDown className={`ml-auto h-5 w-5 text-gray-400 transition-transform ${expandedMenus.careers ? 'transform rotate-180' : ''}`} />
             </button>
+
+            {expandedMenus.careers && (
+              <div className="pl-10 space-y-1">
+                <Link
+                  href="/careers/categories"
+                  className="flex items-center px-3 py-2 text-sm font-medium rounded-md text-gray-600 hover:bg-gray-50 hover:text-gray-900"
+                >
+                  <span className="w-1 h-1 bg-gray-600 rounded-full mr-2"></span>
+                  Career Categories
+                </Link>
+                <Link
+                  href="/careers/list"
+                  className="flex items-center px-3 py-2 text-sm font-medium rounded-md text-gray-600 hover:bg-gray-50 hover:text-gray-900"
+                >
+                  <span className="w-1 h-1 bg-gray-600 rounded-full mr-2"></span>
+                  Career list
+                </Link>
+              </div>
+            )}
           </div>
         </div>
 
@@ -392,6 +567,25 @@ function Sidebar() {
               Bonuses
               <ChevronDown className={`ml-auto h-5 w-5 text-gray-400 transition-transform ${expandedMenus.bonuses ? 'transform rotate-180' : ''}`} />
             </button>
+
+            {expandedMenus.bonuses && (
+              <div className="pl-10 space-y-1">
+                <Link
+                  href="/bonuses/branch"
+                  className="flex items-center px-3 py-2 text-sm font-medium rounded-md text-gray-600 hover:bg-gray-50 hover:text-gray-900"
+                >
+                  <span className="w-1 h-1 bg-gray-600 rounded-full mr-2"></span>
+                  Branch bonus
+                </Link>
+                <Link
+                  href="/bonuses/product"
+                  className="flex items-center px-3 py-2 text-sm font-medium rounded-md text-gray-600 hover:bg-gray-50 hover:text-gray-900"
+                >
+                  <span className="w-1 h-1 bg-gray-600 rounded-full mr-2"></span>
+                  Product bonus
+                </Link>
+              </div>
+            )}
           </div>
         </div>
 
@@ -412,7 +606,7 @@ function Sidebar() {
               href="/staff-admin"
               className="flex items-center px-3 py-2 text-sm font-medium rounded-md text-gray-600 hover:bg-gray-50 hover:text-gray-900"
             >
-              <Building className="mr-3 h-5 w-5 text-gray-600" />
+              <Users className="mr-3 h-5 w-5 text-gray-600" />
               Staff & admin users
             </Link>
 
@@ -425,6 +619,39 @@ function Sidebar() {
               <ChevronDown className={`ml-auto h-5 w-5 text-gray-400 transition-transform ${expandedMenus.deliverymen ? 'transform rotate-180' : ''}`} />
             </button>
 
+            {expandedMenus.deliverymen && (
+              <div className="pl-10 space-y-1">
+                <Link
+                  href="/deliverymen/list"
+                  className="flex items-center px-3 py-2 text-sm font-medium rounded-md text-gray-600 hover:bg-gray-50 hover:text-gray-900"
+                >
+                  <span className="w-1 h-1 bg-gray-600 rounded-full mr-2"></span>
+                  Deliverymen list
+                </Link>
+                <Link
+                  href="/deliverymen/map"
+                  className="flex items-center px-3 py-2 text-sm font-medium rounded-md text-gray-600 hover:bg-gray-50 hover:text-gray-900"
+                >
+                  <span className="w-1 h-1 bg-gray-600 rounded-full mr-2"></span>
+                  Deliverymen map
+                </Link>
+                <Link
+                  href="/deliverymen/statistics"
+                  className="flex items-center px-3 py-2 text-sm font-medium rounded-md text-gray-600 hover:bg-gray-50 hover:text-gray-900"
+                >
+                  <span className="w-1 h-1 bg-gray-600 rounded-full mr-2"></span>
+                  Deliverymen statistics
+                </Link>
+                <Link
+                  href="/deliverymen/reviews"
+                  className="flex items-center px-3 py-2 text-sm font-medium rounded-md text-gray-600 hover:bg-gray-50 hover:text-gray-900"
+                >
+                  <span className="w-1 h-1 bg-gray-600 rounded-full mr-2"></span>
+                  Deliverymen reviews
+                </Link>
+              </div>
+            )}
+
             <button
               onClick={() => toggleMenu('wallets')}
               className="w-full flex items-center px-3 py-2 text-sm font-medium rounded-md text-gray-600 hover:bg-gray-50 hover:text-gray-900"
@@ -433,6 +660,25 @@ function Sidebar() {
               Wallets
               <ChevronDown className={`ml-auto h-5 w-5 text-gray-400 transition-transform ${expandedMenus.wallets ? 'transform rotate-180' : ''}`} />
             </button>
+
+            {expandedMenus.wallets && (
+              <div className="pl-10 space-y-1">
+                <Link
+                  href="/wallets/user"
+                  className="flex items-center px-3 py-2 text-sm font-medium rounded-md text-gray-600 hover:bg-gray-50 hover:text-gray-900"
+                >
+                  <span className="w-1 h-1 bg-gray-600 rounded-full mr-2"></span>
+                  User wallets
+                </Link>
+                <Link
+                  href="/wallets/add-funds"
+                  className="flex items-center px-3 py-2 text-sm font-medium rounded-md text-gray-600 hover:bg-gray-50 hover:text-gray-900"
+                >
+                  <span className="w-1 h-1 bg-gray-600 rounded-full mr-2"></span>
+                  Add funds
+                </Link>
+              </div>
+            )}
           </div>
         </div>
 
@@ -458,6 +704,25 @@ function Sidebar() {
               <ChevronDown className={`ml-auto h-5 w-5 text-gray-400 transition-transform ${expandedMenus.sellerPayments ? 'transform rotate-180' : ''}`} />
             </button>
 
+            {expandedMenus.sellerPayments && (
+              <div className="pl-10 space-y-1">
+                <Link
+                  href="/seller-payments/info"
+                  className="flex items-center px-3 py-2 text-sm font-medium rounded-md text-gray-600 hover:bg-gray-50 hover:text-gray-900"
+                >
+                  <span className="w-1 h-1 bg-gray-600 rounded-full mr-2"></span>
+                  Info
+                </Link>
+                <Link
+                  href="/seller-payments/completed"
+                  className="flex items-center px-3 py-2 text-sm font-medium rounded-md text-gray-600 hover:bg-gray-50 hover:text-gray-900"
+                >
+                  <span className="w-1 h-1 bg-gray-600 rounded-full mr-2"></span>
+                  Completed payments
+                </Link>
+              </div>
+            )}
+
             <button
               onClick={() => toggleMenu('deliverymanPayments')}
               className="w-full flex items-center px-3 py-2 text-sm font-medium rounded-md text-gray-600 hover:bg-gray-50 hover:text-gray-900"
@@ -466,6 +731,25 @@ function Sidebar() {
               Deliveryman payments
               <ChevronDown className={`ml-auto h-5 w-5 text-gray-400 transition-transform ${expandedMenus.deliverymanPayments ? 'transform rotate-180' : ''}`} />
             </button>
+
+            {expandedMenus.deliverymanPayments && (
+              <div className="pl-10 space-y-1">
+                <Link
+                  href="/deliveryman-payments/info"
+                  className="flex items-center px-3 py-2 text-sm font-medium rounded-md text-gray-600 hover:bg-gray-50 hover:text-gray-900"
+                >
+                  <span className="w-1 h-1 bg-gray-600 rounded-full mr-2"></span>
+                  Info
+                </Link>
+                <Link
+                  href="/deliveryman-payments/completed"
+                  className="flex items-center px-3 py-2 text-sm font-medium rounded-md text-gray-600 hover:bg-gray-50 hover:text-gray-900"
+                >
+                  <span className="w-1 h-1 bg-gray-600 rounded-full mr-2"></span>
+                  Completed payments
+                </Link>
+              </div>
+            )}
 
             <Link
               href="/payout-requests"
@@ -492,57 +776,71 @@ function Sidebar() {
           <div className="mt-2 space-y-1">
             <Link
               href="/overview"
-              className="flex items-center px-3 py-2 text-sm font-medium rounded-md text-gray-600 hover:bg-gray-50 hover:text-gray-900"
+              className={`flex items-center px-3 py-2 text-sm font-medium rounded-md ${
+                pathname === "/overview" ? "bg-blue-50 text-gray-900" : "text-gray-600 hover:bg-gray-50 hover:text-gray-900"
+              }`}
             >
-              <FileText className="mr-3 h-5 w-5 text-gray-600" />
+              <LayoutDashboard className="mr-3 h-5 w-5 text-gray-600" />
               Overview
             </Link>
-
+            
             <Link
               href="/revenue-reports"
-              className="flex items-center px-3 py-2 text-sm font-medium rounded-md text-gray-600 hover:bg-gray-50 hover:text-gray-900"
+              className={`flex items-center px-3 py-2 text-sm font-medium rounded-md ${
+                pathname === "/revenue-reports" ? "bg-blue-50 text-gray-900" : "text-gray-600 hover:bg-gray-50 hover:text-gray-900"
+              }`}
             >
               <TrendingUp className="mr-3 h-5 w-5 text-gray-600" />
               Revenue reports
             </Link>
-
+            
             <Link
               href="/order-reports"
-              className="flex items-center px-3 py-2 text-sm font-medium rounded-md text-gray-600 hover:bg-gray-50 hover:text-gray-900"
+              className={`flex items-center px-3 py-2 text-sm font-medium rounded-md ${
+                pathname === "/order-reports" ? "bg-blue-50 text-gray-900" : "text-gray-600 hover:bg-gray-50 hover:text-gray-900"
+              }`}
             >
               <BarChart className="mr-3 h-5 w-5 text-gray-600" />
               Order reports
             </Link>
-
+            
             <Link
               href="/product-reports"
-              className="flex items-center px-3 py-2 text-sm font-medium rounded-md text-gray-600 hover:bg-gray-50 hover:text-gray-900"
+              className={`flex items-center px-3 py-2 text-sm font-medium rounded-md ${
+                pathname === "/product-reports" ? "bg-blue-50 text-gray-900" : "text-gray-600 hover:bg-gray-50 hover:text-gray-900"
+              }`}
             >
-              <ShoppingBag className="mr-3 h-5 w-5 text-gray-600" />
+              <Package className="mr-3 h-5 w-5 text-gray-600" />
               Product reports
             </Link>
-
+            
             <Link
               href="/stock-reports"
-              className="flex items-center px-3 py-2 text-sm font-medium rounded-md text-gray-600 hover:bg-gray-50 hover:text-gray-900"
+              className={`flex items-center px-3 py-2 text-sm font-medium rounded-md ${
+                pathname === "/stock-reports" ? "bg-blue-50 text-gray-900" : "text-gray-600 hover:bg-gray-50 hover:text-gray-900"
+              }`}
             >
               <LineChart className="mr-3 h-5 w-5 text-gray-600" />
               Stock reports
             </Link>
-
+            
             <Link
               href="/category-reports"
-              className="flex items-center px-3 py-2 text-sm font-medium rounded-md text-gray-600 hover:bg-gray-50 hover:text-gray-900"
+              className={`flex items-center px-3 py-2 text-sm font-medium rounded-md ${
+                pathname === "/category-reports" ? "bg-blue-50 text-gray-900" : "text-gray-600 hover:bg-gray-50 hover:text-gray-900"
+              }`}
             >
               <ListTree className="mr-3 h-5 w-5 text-gray-600" />
               Category reports
             </Link>
-
+            
             <Link
               href="/extras-reports"
-              className="flex items-center px-3 py-2 text-sm font-medium rounded-md text-gray-600 hover:bg-gray-50 hover:text-gray-900"
+              className={`flex items-center px-3 py-2 text-sm font-medium rounded-md ${
+                pathname === "/extras-reports" ? "bg-blue-50 text-gray-900" : "text-gray-600 hover:bg-gray-50 hover:text-gray-900"
+              }`}
             >
-              <ClipboardCheck className="mr-3 h-5 w-5 text-gray-600" />
+              <Puzzle className="mr-3 h-5 w-5 text-gray-600" />
               Extras reports
             </Link>
           </div>
@@ -578,6 +876,25 @@ function Sidebar() {
               <ChevronDown className={`ml-auto h-5 w-5 text-gray-400 transition-transform ${expandedMenus.payments ? 'transform rotate-180' : ''}`} />
             </button>
 
+            {expandedMenus.payments && (
+              <div className="pl-10 space-y-1">
+                <Link
+                  href="/payments/methods"
+                  className="flex items-center px-3 py-2 text-sm font-medium rounded-md text-gray-600 hover:bg-gray-50 hover:text-gray-900"
+                >
+                  <span className="w-1 h-1 bg-gray-600 rounded-full mr-2"></span>
+                  Payment methods
+                </Link>
+                <Link
+                  href="/payments/payloads"
+                  className="flex items-center px-3 py-2 text-sm font-medium rounded-md text-gray-600 hover:bg-gray-50 hover:text-gray-900"
+                >
+                  <span className="w-1 h-1 bg-gray-600 rounded-full mr-2"></span>
+                  Payment payloads
+                </Link>
+              </div>
+            )}
+
             <button
               onClick={() => toggleMenu('notificationSettings')}
               className="w-full flex items-center px-3 py-2 text-sm font-medium rounded-md text-gray-600 hover:bg-gray-50 hover:text-gray-900"
@@ -586,6 +903,46 @@ function Sidebar() {
               Notification settings
               <ChevronDown className={`ml-auto h-5 w-5 text-gray-400 transition-transform ${expandedMenus.notificationSettings ? 'transform rotate-180' : ''}`} />
             </button>
+
+            {expandedMenus.notificationSettings && (
+              <div className="pl-10 space-y-1">
+                <Link
+                  href="/notification-settings/firebase"
+                  className="flex items-center px-3 py-2 text-sm font-medium rounded-md text-gray-600 hover:bg-gray-50 hover:text-gray-900"
+                >
+                  <span className="w-1 h-1 bg-gray-600 rounded-full mr-2"></span>
+                  Firebase configuration
+                </Link>
+                <Link
+                  href="/notification-settings/sms"
+                  className="flex items-center px-3 py-2 text-sm font-medium rounded-md text-gray-600 hover:bg-gray-50 hover:text-gray-900"
+                >
+                  <span className="w-1 h-1 bg-gray-600 rounded-full mr-2"></span>
+                  Sms provider
+                </Link>
+                <Link
+                  href="/notification-settings/email"
+                  className="flex items-center px-3 py-2 text-sm font-medium rounded-md text-gray-600 hover:bg-gray-50 hover:text-gray-900"
+                >
+                  <span className="w-1 h-1 bg-gray-600 rounded-full mr-2"></span>
+                  Email provider
+                </Link>
+                <Link
+                  href="/notification-settings/templates"
+                  className="flex items-center px-3 py-2 text-sm font-medium rounded-md text-gray-600 hover:bg-gray-50 hover:text-gray-900"
+                >
+                  <span className="w-1 h-1 bg-gray-600 rounded-full mr-2"></span>
+                  Email templates
+                </Link>
+                <Link
+                  href="/notification-settings/subscribers"
+                  className="flex items-center px-3 py-2 text-sm font-medium rounded-md text-gray-600 hover:bg-gray-50 hover:text-gray-900"
+                >
+                  <span className="w-1 h-1 bg-gray-600 rounded-full mr-2"></span>
+                  Subscribers
+                </Link>
+              </div>
+            )}
 
             <Link
               href="/social-settings"
@@ -611,6 +968,39 @@ function Sidebar() {
               Page setup
               <ChevronDown className={`ml-auto h-5 w-5 text-gray-400 transition-transform ${expandedMenus.pageSetup ? 'transform rotate-180' : ''}`} />
             </button>
+
+            {expandedMenus.pageSetup && (
+              <div className="pl-10 space-y-1">
+                <Link
+                  href="/page-setup/faq"
+                  className="flex items-center px-3 py-2 text-sm font-medium rounded-md text-gray-600 hover:bg-gray-50 hover:text-gray-900"
+                >
+                  <span className="w-1 h-1 bg-gray-600 rounded-full mr-2"></span>
+                  FAQ
+                </Link>
+                <Link
+                  href="/page-setup/terms"
+                  className="flex items-center px-3 py-2 text-sm font-medium rounded-md text-gray-600 hover:bg-gray-50 hover:text-gray-900"
+                >
+                  <span className="w-1 h-1 bg-gray-600 rounded-full mr-2"></span>
+                  Terms & conditions
+                </Link>
+                <Link
+                  href="/page-setup/privacy"
+                  className="flex items-center px-3 py-2 text-sm font-medium rounded-md text-gray-600 hover:bg-gray-50 hover:text-gray-900"
+                >
+                  <span className="w-1 h-1 bg-gray-600 rounded-full mr-2"></span>
+                  Privacy policy
+                </Link>
+                <Link
+                  href="/page-setup/custom"
+                  className="flex items-center px-3 py-2 text-sm font-medium rounded-md text-gray-600 hover:bg-gray-50 hover:text-gray-900"
+                >
+                  <span className="w-1 h-1 bg-gray-600 rounded-full mr-2"></span>
+                  Custom pages
+                </Link>
+              </div>
+            )}
           </div>
         </div>
 
@@ -628,6 +1018,25 @@ function Sidebar() {
               <ChevronDown className={`ml-auto h-5 w-5 text-gray-400 transition-transform ${expandedMenus.langTranslations ? 'transform rotate-180' : ''}`} />
             </button>
 
+            {expandedMenus.langTranslations && (
+              <div className="pl-10 space-y-1">
+                <Link
+                  href="/lang-translations/languages"
+                  className="flex items-center px-3 py-2 text-sm font-medium rounded-md text-gray-600 hover:bg-gray-50 hover:text-gray-900"
+                >
+                  <span className="w-1 h-1 bg-gray-600 rounded-full mr-2"></span>
+                  Languages
+                </Link>
+                <Link
+                  href="/lang-translations/translations"
+                  className="flex items-center px-3 py-2 text-sm font-medium rounded-md text-gray-600 hover:bg-gray-50 hover:text-gray-900"
+                >
+                  <span className="w-1 h-1 bg-gray-600 rounded-full mr-2"></span>
+                  Translations
+                </Link>
+              </div>
+            )}
+
             <button
               onClick={() => toggleMenu('backupMaintenance')}
               className="w-full flex items-center px-3 py-2 text-sm font-medium rounded-md text-gray-600 hover:bg-gray-50 hover:text-gray-900"
@@ -636,6 +1045,25 @@ function Sidebar() {
               Backup & maintenance
               <ChevronDown className={`ml-auto h-5 w-5 text-gray-400 transition-transform ${expandedMenus.backupMaintenance ? 'transform rotate-180' : ''}`} />
             </button>
+
+            {expandedMenus.backupMaintenance && (
+              <div className="pl-10 space-y-1">
+                <Link
+                  href="/backup-maintenance/backup"
+                  className="flex items-center px-3 py-2 text-sm font-medium rounded-md text-gray-600 hover:bg-gray-50 hover:text-gray-900"
+                >
+                  <span className="w-1 h-1 bg-gray-600 rounded-full mr-2"></span>
+                  Backup
+                </Link>
+                <Link
+                  href="/backup-maintenance/clear-cache"
+                  className="flex items-center px-3 py-2 text-sm font-medium rounded-md text-gray-600 hover:bg-gray-50 hover:text-gray-900"
+                >
+                  <span className="w-1 h-1 bg-gray-600 rounded-full mr-2"></span>
+                  Clear cache
+                </Link>
+              </div>
+            )}
 
             <Link
               href="/system-information"
