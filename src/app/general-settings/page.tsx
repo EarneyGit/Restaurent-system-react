@@ -180,8 +180,9 @@ export default function GeneralSettingsPage() {
                               className="w-full h-full object-cover" 
                             />
                           ) : (
-                            <svg viewBox="0 0 24 24" width="40" height="40" stroke="currentColor" strokeWidth="2" fill="none" strokeLinecap="round" strokeLinejoin="round" className="text-green-500">
-                              <path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"></path>
+                            <svg viewBox="0 0 24 24" width="40" height="40" stroke="currentColor" strokeWidth="2" fill="none" strokeLinecap="round" strokeLinejoin="round" className="text-blue-500">
+                              <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z" />
+                              <polyline points="9 22 9 12 15 12 15 22" />
                             </svg>
                           )}
                         </div>
@@ -220,12 +221,13 @@ export default function GeneralSettingsPage() {
                             />
                           ) : (
                             <>
-                              <div className="w-6 h-6 bg-green-500 rounded-full flex items-center justify-center mr-2">
+                              <div className="w-6 h-6 bg-blue-500 rounded-full flex items-center justify-center mr-2">
                                 <svg viewBox="0 0 24 24" width="16" height="16" stroke="white" strokeWidth="3" fill="none" strokeLinecap="round" strokeLinejoin="round">
-                                  <path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"></path>
+                                  <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z" />
+                                  <polyline points="9 22 9 12 15 12 15 22" />
                                 </svg>
                               </div>
-                              <span className="font-bold text-lg">foodyman</span>
+                              <span className="font-bold text-lg">Restroman</span>
                             </>
                           )}
                         </div>
@@ -264,12 +266,13 @@ export default function GeneralSettingsPage() {
                             />
                           ) : (
                             <>
-                              <div className="w-6 h-6 bg-green-500 rounded-full flex items-center justify-center mr-2">
+                              <div className="w-6 h-6 bg-blue-500 rounded-full flex items-center justify-center mr-2">
                                 <svg viewBox="0 0 24 24" width="16" height="16" stroke="white" strokeWidth="3" fill="none" strokeLinecap="round" strokeLinejoin="round">
-                                  <path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"></path>
+                                  <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z" />
+                                  <polyline points="9 22 9 12 15 12 15 22" />
                                 </svg>
                               </div>
-                              <span className="font-bold text-lg text-white bg-gray-800 px-2">foodyman</span>
+                              <span className="font-bold text-lg text-white bg-gray-800 px-2">Restroman</span>
                             </>
                           )}
                         </div>
