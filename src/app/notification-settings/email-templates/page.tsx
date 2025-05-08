@@ -2,7 +2,7 @@ import PageLayout from "@/components/layout/page-layout"
 
 export default function EmailTemplatesPage() {
   // Empty data for "No data" state
-  const emailTemplates = []
+  const emailTemplates: any[] = []
 
   return (
     <PageLayout>

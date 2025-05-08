@@ -2,8 +2,9 @@
 
 import React, { useState } from 'react'
 import { ChevronDown, Eye } from 'lucide-react'
+import { Transaction } from '@/types';
 
-interface Transaction {
+interface LocalTransaction {
   id: number
   client: string
   amount: string
@@ -14,7 +15,7 @@ interface Transaction {
 }
 
 export default function Transactions() {
-  const [transactions, setTransactions] = useState<Transaction[]>([
+  const [transactions, setTransactions] = useState<LocalTransaction[]>([
     { id: 1683, client: 'Sochima Ugwu', amount: '$ 25.17', paymentType: 'Cash', status: 'Progress', note: 'Transaction for order #1200', createdAt: '21-04-2025 22:19' },
     { id: 1682, client: 'Branch1 Githubit', amount: '$ 33.75', paymentType: 'Cash', status: 'Progress', note: 'Transaction for Order #1199', createdAt: '21-04-2025 22:10' },
     { id: 1681, client: 'Joseph Kabata', amount: '$ 6,962.48', paymentType: 'Cash', status: 'Progress', note: 'Transaction for Order #1198', createdAt: '21-04-2025 21:55' },

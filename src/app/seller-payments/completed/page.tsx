@@ -3,6 +3,7 @@
 import React, { useState } from 'react'
 import PageLayout from '@/components/layout/page-layout'
 import { Search, Calendar, ChevronRight, Folder } from "lucide-react"
+import { Payment } from '@/types'
 
 export default function SellerCompletedPaymentsPage() {
   const [dateRange, setDateRange] = useState<{start: string, end: string}>({
@@ -14,7 +15,7 @@ export default function SellerCompletedPaymentsPage() {
   const [searchTerm, setSearchTerm] = useState<string>("")
   
   // Mock data - empty state initially
-  const payments = []
+  const payments: Payment[] = []
 
   return (
     <PageLayout>

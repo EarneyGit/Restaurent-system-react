@@ -2,26 +2,23 @@
 
 import React, { useState } from "react"
 import { Search, Pencil, Trash, Plus, List } from "lucide-react"
-
-// Define the bonus type
-interface Bonus {
-  id: number
-  orderAmount: string
-  bonusProduct: string
-  active: boolean
-  expiredAt: string
-}
+import { Bonus } from '@/types';
 
 export default function BranchBonusContent() {
-  const [selectedBonuses, setSelectedBonuses] = useState<number[]>([])
+  const [selectedBonuses, setSelectedBonuses] = useState<(string | number)[]>([])
   const [noData, setNoData] = useState(true)
 
   // Mock data for branch bonuses
   const bonuses: Bonus[] = []
 
-  const toggleBonusSelection = (id: number) => {
+  // Add a helper function to check if id is defined
+  const isIdDefined = (id: string | number | undefined): id is string | number => id !== undefined
+
+  const toggleBonusSelection = (id: string | number | undefined) => {
+    if (!id) return; // Skip if id is undefined
+    
     if (selectedBonuses.includes(id)) {
-      setSelectedBonuses(selectedBonuses.filter(bonusId => bonusId !== id))
+      setSelectedBonuses(selectedBonuses.filter(selectedId => selectedId !== id))
     } else {
       setSelectedBonuses([...selectedBonuses, id])
     }
@@ -31,7 +28,7 @@ export default function BranchBonusContent() {
     if (selectedBonuses.length === bonuses.length) {
       setSelectedBonuses([])
     } else {
-      setSelectedBonuses(bonuses.map(bonus => bonus.id))
+      setSelectedBonuses(bonuses.map(bonus => bonus.id).filter((id): id is string | number => id !== undefined))
     }
   }
 
@@ -86,7 +83,7 @@ export default function BranchBonusContent() {
                     <input
                       type="checkbox"
                       className="h-4 w-4 rounded border-gray-300 text-blue-500 focus:ring-blue-500"
-                      checked={selectedBonuses.includes(bonus.id)}
+                      checked={bonus.id !== undefined && selectedBonuses.includes(bonus.id)}
                       onChange={() => toggleBonusSelection(bonus.id)}
                     />
                   </td>

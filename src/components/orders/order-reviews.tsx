@@ -2,15 +2,7 @@
 
 import React, { useState } from "react"
 import { Search, ChevronDown, Star, Eye, Trash2 } from "lucide-react"
-
-interface Review {
-  id: string;
-  customer: string;
-  branch: string;
-  reviewText: string | null;
-  rating: number;
-  date: string;
-}
+import { Review } from '@/types';
 
 export default function OrderReviews() {
   const [reviews, setReviews] = useState<Review[]>([
@@ -26,20 +18,20 @@ export default function OrderReviews() {
     { id: "#1074", customer: "Delivery Delivery", branch: "Bareilly", reviewText: "Nice", rating: 5, date: "08-05-2023 13:53" },
   ]);
 
-  const [selectedReviews, setSelectedReviews] = useState<string[]>([]);
+  const [selectedReviews, setSelectedReviews] = useState<(string | number)[]>([]);
   const [searchTerm, setSearchTerm] = useState('');
   const [selectedBranch, setSelectedBranch] = useState('All branches');
   const [selectedCustomer, setSelectedCustomer] = useState('Select customer');
 
   const handleSelectAll = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.checked) {
-      setSelectedReviews(reviews.map(review => review.id));
+      setSelectedReviews(reviews.map(review => review.id).filter(id => id !== undefined) as (string | number)[]);
     } else {
       setSelectedReviews([]);
     }
   };
 
-  const handleSelectReview = (id: string) => {
+  const toggleReviewSelection = (id: string | number) => {
     if (selectedReviews.includes(id)) {
       setSelectedReviews(selectedReviews.filter(reviewId => reviewId !== id));
     } else {
@@ -54,7 +46,9 @@ export default function OrderReviews() {
   };
 
   const handleDeleteSelected = () => {
-    setReviews(reviews.filter(review => !selectedReviews.includes(review.id)));
+    setReviews(reviews.filter(review => 
+      review.id === undefined || !selectedReviews.includes(review.id)
+    ));
     setSelectedReviews([]);
   };
 
@@ -175,8 +169,8 @@ export default function OrderReviews() {
                     <input
                       type="checkbox"
                       className="h-4 w-4 text-blue-500 rounded"
-                      checked={selectedReviews.includes(review.id)}
-                      onChange={() => handleSelectReview(review.id)}
+                      checked={review.id !== undefined && selectedReviews.includes(review.id)}
+                      onChange={() => review.id !== undefined && toggleReviewSelection(review.id)}
                     />
                   </td>
                   <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
@@ -197,7 +191,7 @@ export default function OrderReviews() {
                         <Star
                           key={index}
                           className={`h-5 w-5 ${
-                            index < review.rating
+                            index < (review.rating || 0)
                               ? 'text-yellow-400 fill-yellow-400'
                               : 'text-gray-300'
                           }`}
@@ -206,7 +200,7 @@ export default function OrderReviews() {
                     </div>
                   </td>
                   <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
-                    {review.date}
+                    {review.date instanceof Date ? review.date.toLocaleString() : review.date || ''}
                   </td>
                   <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
                     <div className="flex space-x-2">

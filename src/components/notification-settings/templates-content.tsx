@@ -3,7 +3,7 @@ import { Mail, Pencil, Plus, Trash } from 'lucide-react'
 
 export default function TemplatesContent() {
   // Sample data - empty initially
-  const templates = []
+  const templates: any[] = []
 
   return (
     <div className="max-w-7xl mx-auto p-8">

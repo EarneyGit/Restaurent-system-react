@@ -8,7 +8,7 @@ function TodoList() {
   const [timePeriod, setTimePeriod] = useState("week")
 
   // Sample todos for different time periods
-  const weekTodos = []
+  const weekTodos: any[] = []
   const monthTodos = ["Prepare monthly inventory report", "Schedule staff meeting"]
   const yearTodos = ["Plan annual budget", "Prepare annual tax documents", "Review yearly performance"]
 

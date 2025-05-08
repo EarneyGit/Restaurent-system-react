@@ -3,6 +3,7 @@
 import React, { useState } from "react"
 import Image from "next/image"
 import { Search, X } from "lucide-react"
+import { Item } from '@/types';
 
 interface CartItem {
   id: number;

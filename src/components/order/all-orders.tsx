@@ -1,254 +1,157 @@
 "use client"
 
-import React, { useState } from "react"
+import React, { useState } from 'react'
 import { Search, Plus, Filter, Check, MoreHorizontal, Eye, MapPin, Printer, Download, Trash, FileDown } from "lucide-react"
 import Link from "next/link"
+import { Order } from '@/types'
+
+// Define types for the BoardView props
+interface BoardViewProps {
+  orders: any[];
+  getStatusBadge: (status: string) => JSX.Element;
+  getStatusColor: (status: string) => string;
+}
 
 // Board view component for Kanban-style order management
-function BoardView({ orders, getStatusBadge, getStatusColor }) {
+function BoardView({ orders, getStatusBadge, getStatusColor }: BoardViewProps) {
   // Group orders by status
   const groupedOrders = orders.reduce((acc, order) => {
-    const status = order.orderStatus.toLowerCase();
+    const status = order.orderStatus?.toLowerCase() || 'pending';
     if (!acc[status]) {
       acc[status] = [];
     }
     acc[status].push(order);
     return acc;
-  }, {});
+  }, {} as Record<string, any[]>);
 
   // Define status columns to display
-  const statusColumns = [
-    { id: 'new', label: 'New', count: groupedOrders['new']?.length || 0 },
-    { id: 'accepted', label: 'Accepted', count: groupedOrders['accepted']?.length || 0 },
-    { id: 'cooking', label: 'Cooking', count: groupedOrders['cooking']?.length || 0 },
-    { id: 'ready', label: 'Ready', count: groupedOrders['ready']?.length || 0 },
-    { id: 'onaway', label: 'On a way', count: groupedOrders['on a way']?.length || 0 },
-    { id: 'delivered', label: 'Delivered', count: groupedOrders['delivered']?.length || 0 },
-    { id: 'canceled', label: 'Canceled', count: groupedOrders['canceled']?.length || 0 },
+  const columns = [
+    { id: 'new', label: 'New' },
+    { id: 'accepted', label: 'Accepted' },
+    { id: 'preparing', label: 'Preparing' },
+    { id: 'ready', label: 'Ready for Delivery' },
+    { id: 'on_the_way', label: 'On the Way' },
+    { id: 'delivered', label: 'Delivered' },
+    { id: 'canceled', label: 'Canceled' }
   ];
 
-  // Function to get column background color based on status
-  const getColumnColor = (status) => {
-    switch (status) {
-      case 'new': return 'bg-blue-50';
-      case 'accepted': return 'bg-green-50';
-      case 'cooking': return 'bg-amber-50';
-      case 'ready': return 'bg-purple-50';
-      case 'onaway': return 'bg-indigo-50';
-      case 'delivered': return 'bg-emerald-50';
-      case 'canceled': return 'bg-red-50';
-      default: return 'bg-gray-50';
-    }
-  };
-
   return (
-    <div className="overflow-x-auto pb-6">
-      <div className="flex space-x-4 min-w-fit">
-        {statusColumns.map((column) => (
-          <div 
-            key={column.id} 
-            className={`w-80 flex-shrink-0 rounded-lg ${getColumnColor(column.id)} overflow-hidden flex flex-col`}
-          >
-            <div className="p-3 border-b font-medium flex items-center justify-between">
-              <div className="flex items-center">
-                <span>{column.label}</span>
-                <span className="ml-2 px-2 py-0.5 bg-white rounded-full text-xs text-gray-600">
-                  {column.count}
-                </span>
-              </div>
-              <button className="p-1 rounded hover:bg-white/50">
-                <MoreHorizontal size={16} />
-              </button>
-            </div>
-            <div className="p-2 overflow-y-auto flex-1 max-h-[calc(100vh-240px)]">
-              {groupedOrders[column.id]?.map((order) => (
-                <div key={order.id} className="bg-white p-3 rounded-lg mb-2 shadow-sm">
-                  <div className="flex justify-between items-start mb-2">
-                    <span className="font-medium text-gray-900">#{order.id}</span>
-                    <div>{getStatusBadge(order.orderStatus)}</div>
-                  </div>
-                  <div className="text-sm text-gray-600 mb-1">
-                    <div className="flex justify-between">
-                      <span>Customer:</span>
-                      <span className="font-medium">{order.customer}</span>
-                    </div>
-                    <div className="flex justify-between">
-                      <span>Branch:</span>
-                      <span>{order.branch}</span>
-                    </div>
-                    <div className="flex justify-between">
-                      <span>Type:</span>
-                      <span>{order.orderType}</span>
-                    </div>
-                    <div className="flex justify-between">
-                      <span>Price:</span>
-                      <span className="font-medium">{order.totalPrice}</span>
-                    </div>
-                    <div className="flex justify-between">
-                      <span>Payment:</span>
-                      <span className={getStatusColor(order.paymentStatus)}>{order.paymentStatus}</span>
-                    </div>
-                  </div>
-                  <div className="mt-2 flex justify-end space-x-1">
-                    <button className="p-1 rounded-full hover:bg-gray-100">
+    <div className="flex gap-4 overflow-x-auto p-4">
+      {columns.map(column => (
+        <div key={column.id} className="flex-shrink-0 w-80 bg-gray-50 rounded-lg shadow-sm">
+          <div className="p-3 border-b bg-gray-100 rounded-t-lg">
+            <h3 className="font-medium text-gray-700">{column.label}</h3>
+          </div>
+          <div className="p-2 max-h-[calc(100vh-220px)] overflow-y-auto">
+            {(groupedOrders[column.id] || []).map((order: any) => (
+              <div key={order.id} className="bg-white p-3 rounded-md shadow-sm mb-2 border border-gray-200">
+                <div className="flex justify-between items-start mb-2">
+                  <span className="font-medium">Order #{order.id}</span>
+                  {getStatusBadge(order.orderStatus || '')}
+                </div>
+                <div className="text-sm text-gray-600 mb-2">
+                  <div>{order.customer}</div>
+                  <div>{order.deliveryDate}</div>
+                </div>
+                <div className="flex justify-between items-center text-sm">
+                  <span className="font-medium">{order.totalPrice}</span>
+                  <div className="flex gap-1">
+                    <button className="p-1 rounded hover:bg-gray-100">
                       <Eye size={16} className="text-blue-500" />
                     </button>
-                    <button className="p-1 rounded-full hover:bg-gray-100">
+                    <button className="p-1 rounded hover:bg-gray-100">
                       <MapPin size={16} className="text-gray-500" />
-                    </button>
-                    <button className="p-1 rounded-full hover:bg-gray-100">
-                      <Printer size={16} className="text-gray-500" />
                     </button>
                   </div>
                 </div>
-              ))}
-            </div>
+              </div>
+            ))}
           </div>
-        ))}
-      </div>
+        </div>
+      ))}
     </div>
   );
 }
 
-export default function AllOrders() {
-  const [viewMode, setViewMode] = useState<"list" | "board">("list")
-  const [selectedTab, setSelectedTab] = useState("all")
+export default function AllOrdersContent() {
+  const [viewMode, setViewMode] = useState('list')
+  const [selectedTab, setSelectedTab] = useState('all')
   const [selectedOrders, setSelectedOrders] = useState<number[]>([])
-  const [currentPage, setCurrentPage] = useState(1)
-
-  // Mock data for orders
-  const orders = [
-    { 
-      id: 1209, 
-      deliveryDate: "27-04-2025 18:06", 
-      customer: "User Demo", 
-      branch: "Main branch", 
-      orderType: "Delivery", 
-      orderStatus: "Canceled", 
-      products: 4, 
-      totalPrice: "$ 370.78", 
-      paymentType: "Cash", 
-      paymentStatus: "Canceled" 
-    },
-    { 
-      id: 1208, 
-      deliveryDate: "N/A", 
-      customer: "User Demo", 
-      branch: "Main branch", 
-      orderType: "Dine-in", 
-      orderStatus: "Accepted", 
-      products: 5, 
-      totalPrice: "$ 93.12", 
-      paymentType: "Wallet", 
-      paymentStatus: "Paid" 
-    },
-    { 
-      id: 1207, 
-      deliveryDate: "N/A", 
-      customer: "Owner Githubit", 
-      branch: "Main branch", 
-      orderType: "Dine-in", 
-      orderStatus: "Accepted", 
-      products: 6, 
-      totalPrice: "$ 33.44", 
-      paymentType: "Cash", 
-      paymentStatus: "Progress" 
-    },
-    { 
-      id: 1206, 
-      deliveryDate: "24-04-2025 23:01", 
-      customer: "Waiter Waiter", 
-      branch: "Central Branch", 
-      orderType: "Dine-in", 
-      orderStatus: "Accepted", 
-      products: 6, 
-      totalPrice: "$ 151.50", 
-      paymentType: "N/A", 
-      paymentStatus: "N/A" 
-    },
-    { 
-      id: 1205, 
-      deliveryDate: "24-04-2025 13:19", 
-      customer: "Noor", 
-      branch: "Main branch", 
-      orderType: "Delivery", 
-      orderStatus: "Canceled", 
-      products: 1, 
-      totalPrice: "$ 13.01", 
-      paymentType: "Cash", 
-      paymentStatus: "Canceled" 
-    },
-    { 
-      id: 1204, 
-      deliveryDate: "24-04-2025 00:16", 
-      customer: "Joseph Kabala", 
-      branch: "Central Branch", 
-      orderType: "Delivery", 
-      orderStatus: "New", 
-      products: 1, 
-      totalPrice: "$ 4,126.59", 
-      paymentType: "Cash", 
-      paymentStatus: "Progress" 
-    },
-    { 
-      id: 1203, 
-      deliveryDate: "23-04-2025 15:11", 
-      customer: "Mohammed bouamane", 
-      branch: "Main branch", 
-      orderType: "Delivery", 
-      orderStatus: "New", 
-      products: 3, 
-      totalPrice: "$ 60.48", 
-      paymentType: "Cash", 
-      paymentStatus: "Progress" 
-    },
-    { 
-      id: 1202, 
-      deliveryDate: "22-04-2025 22:47", 
-      customer: "Branch1 Githubit", 
-      branch: "Central Branch", 
-      orderType: "Pickup", 
-      orderStatus: "New", 
-      products: 2, 
-      totalPrice: "$ 13.68", 
-      paymentType: "N/A", 
-      paymentStatus: "N/A" 
-    },
-    { 
-      id: 1201, 
-      deliveryDate: "22-04-2025 22:46", 
-      customer: "Branch1 Githubit", 
-      branch: "Central Branch", 
-      orderType: "Pickup", 
-      orderStatus: "New", 
-      products: 4, 
-      totalPrice: "$ 31.98", 
-      paymentType: "N/A", 
-      paymentStatus: "N/A" 
-    },
-    { 
-      id: 1200, 
-      deliveryDate: "21-04-2025 19:20", 
-      customer: "Sochima Ugwu", 
-      branch: "Main branch", 
-      orderType: "Pickup", 
-      orderStatus: "New", 
-      products: 3, 
-      totalPrice: "$ 25.17", 
-      paymentType: "Cash", 
-      paymentStatus: "Progress" 
-    }
-  ]
 
   const tabs = [
-    { id: "all", label: "All" },
-    { id: "new", label: "New" },
-    { id: "accepted", label: "Accepted" },
-    { id: "cooking", label: "Cooking" },
-    { id: "ready", label: "Ready" },
-    { id: "onaway", label: "On a way" },
-    { id: "delivered", label: "Delivered" },
-    { id: "canceled", label: "Canceled" }
+    { id: 'all', label: 'All Orders' },
+    { id: 'today', label: 'Today Orders' },
+    { id: 'pending', label: 'Pending Orders' },
+    { id: 'accepted', label: 'Accepted Orders' },
+    { id: 'preparing', label: 'Preparing Orders' },
+    { id: 'ready_for_delivery', label: 'Ready for Delivery' },
+    { id: 'on_a_way', label: 'On a Way Orders' },
+    { id: 'delivered', label: 'Delivered Orders' },
+    { id: 'canceled', label: 'Canceled Orders' }
+  ]
+
+  // Sample orders data
+  const orders = [
+    {
+      id: 1,
+      deliveryDate: "2023-07-10 14:30",
+      customer: "John Doe",
+      branch: "Main Branch",
+      orderType: "Delivery",
+      orderStatus: "Pending",
+      products: "2 items",
+      totalPrice: "$24.99",
+      paymentType: "Credit Card",
+      paymentStatus: "Paid"
+    },
+    {
+      id: 2,
+      deliveryDate: "2023-07-10 15:00",
+      customer: "Jane Smith",
+      branch: "Downtown Branch",
+      orderType: "Pickup",
+      orderStatus: "Accepted",
+      products: "3 items",
+      totalPrice: "$32.50",
+      paymentType: "Cash",
+      paymentStatus: "Pending"
+    },
+    {
+      id: 3,
+      deliveryDate: "2023-07-10 16:15",
+      customer: "Robert Johnson",
+      branch: "Main Branch",
+      orderType: "Dine-in",
+      orderStatus: "Delivered",
+      products: "4 items",
+      totalPrice: "$45.75",
+      paymentType: "Credit Card",
+      paymentStatus: "Paid"
+    },
+    {
+      id: 4,
+      deliveryDate: "2023-07-10 17:30",
+      customer: "Emily Davis",
+      branch: "Downtown Branch",
+      orderType: "Delivery",
+      orderStatus: "Preparing",
+      products: "2 items",
+      totalPrice: "$28.99",
+      paymentType: "Wallet",
+      paymentStatus: "Paid"
+    },
+    {
+      id: 5,
+      deliveryDate: "2023-07-10 18:00",
+      customer: "Michael Wilson",
+      branch: "Main Branch",
+      orderType: "Pickup",
+      orderStatus: "Ready",
+      products: "1 item",
+      totalPrice: "$12.50",
+      paymentType: "Cash",
+      paymentStatus: "Pending"
+    },
   ]
 
   const toggleOrderSelection = (id: number) => {
@@ -268,19 +171,15 @@ export default function AllOrders() {
   }
 
   const getStatusColor = (status: string) => {
-    switch (status.toLowerCase()) {
-      case 'new':
-        return 'text-blue-500'
-      case 'accepted':
-        return 'text-green-500'
-      case 'canceled':
-        return 'text-red-500'
-      case 'progress':
-        return 'text-amber-500'
+    switch(status.toLowerCase()) {
       case 'paid':
-        return 'text-green-500'
+        return 'text-green-600'
+      case 'pending':
+        return 'text-yellow-600'
+      case 'canceled':
+        return 'text-red-600'
       default:
-        return 'text-gray-500'
+        return 'text-gray-600'
     }
   }
 
@@ -296,6 +195,22 @@ export default function AllOrders() {
       case 'accepted':
         bgColor = 'bg-green-100'
         textColor = 'text-green-700'
+        break
+      case 'delivered':
+        bgColor = 'bg-blue-100'
+        textColor = 'text-blue-700'
+        break
+      case 'ready':
+        bgColor = 'bg-teal-100'
+        textColor = 'text-teal-700'
+        break
+      case 'preparing':
+        bgColor = 'bg-orange-100'
+        textColor = 'text-orange-700'
+        break
+      case 'pending':
+        bgColor = 'bg-yellow-100'
+        textColor = 'text-yellow-700'
         break
       case 'new':
         bgColor = 'bg-blue-100'
@@ -553,4 +468,4 @@ export default function AllOrders() {
       </div>
     </div>
   )
-} 
+}

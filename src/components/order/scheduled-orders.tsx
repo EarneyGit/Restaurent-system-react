@@ -3,9 +3,10 @@
 import React, { useState } from "react"
 import { Search, Plus, Filter, Check, MoreHorizontal, Eye, MapPin, Printer, Download, Trash, FileDown, Calendar } from "lucide-react"
 import Link from "next/link"
+import { Order } from '@/types';
 
 // Board view component for Kanban-style order management
-function BoardView({ orders, getStatusBadge, getStatusColor }) {
+function BoardView({ orders, getStatusBadge, getStatusColor }: { orders: any[], getStatusBadge: (status: string) => JSX.Element, getStatusColor: (status: string) => string }) {
   // Group orders by status
   const groupedOrders = orders.reduce((acc, order) => {
     const status = order.orderStatus.toLowerCase();
@@ -14,7 +15,7 @@ function BoardView({ orders, getStatusBadge, getStatusColor }) {
     }
     acc[status].push(order);
     return acc;
-  }, {});
+  }, {} as Record<string, any[]>);
 
   // Define status columns to display
   const statusColumns = [
@@ -26,7 +27,7 @@ function BoardView({ orders, getStatusBadge, getStatusColor }) {
   ];
 
   // Function to get column background color based on status
-  const getColumnColor = (status) => {
+  const getColumnColor = (status: string) => {
     switch (status) {
       case 'new': return 'bg-blue-50';
       case 'accepted': return 'bg-green-50';
@@ -57,7 +58,7 @@ function BoardView({ orders, getStatusBadge, getStatusColor }) {
               </button>
             </div>
             <div className="p-2 overflow-y-auto flex-1 max-h-[calc(100vh-240px)]">
-              {groupedOrders[column.id]?.map((order) => (
+              {groupedOrders[column.id]?.map((order: any) => (
                 <div key={order.id} className="bg-white p-3 rounded-lg mb-2 shadow-sm">
                   <div className="flex justify-between items-start mb-2">
                     <span className="font-medium text-gray-900">#{order.id}</span>

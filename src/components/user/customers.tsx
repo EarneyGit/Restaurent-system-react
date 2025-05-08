@@ -2,8 +2,9 @@
 
 import React, { useState } from 'react'
 import { Search, Plus, Edit, Trash, Eye, MessageCircle, User } from 'lucide-react'
+import { Customer } from '@/types';
 
-interface Customer {
+interface LocalCustomer {
   id: number
   firstName: string
   lastName: string
@@ -12,7 +13,7 @@ interface Customer {
 }
 
 export default function Customers() {
-  const [customers, setCustomers] = useState<Customer[]>([
+  const [customers, setCustomers] = useState<LocalCustomer[]>([
     { id: 175, firstName: 'fernando', lastName: 'sorto', email: 'fernandosorto4@gmail.com', role: 'User' },
     { id: 174, firstName: 'Sochima', lastName: 'Ugwu', email: 'cj1900a@gmail.com', role: 'User' },
     { id: 173, firstName: 'Sisterna', lastName: 'Pesquero', email: 'sistemapesquero@gmail.com', role: 'User' },

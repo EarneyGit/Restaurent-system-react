@@ -3,6 +3,7 @@
 import React, { useState, useRef } from 'react'
 import { MessageCircle, Trash, Star, MoreVertical, Search, ChevronDown, X, HelpCircle } from 'lucide-react'
 import Image from 'next/image'
+import { Review } from '@/types';
 
 interface DeliverymanReview {
   id: number

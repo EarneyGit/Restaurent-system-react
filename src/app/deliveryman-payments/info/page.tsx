@@ -3,6 +3,7 @@
 import React, { useState } from 'react'
 import PageLayout from '@/components/layout/page-layout'
 import { Calendar, ChevronRight, Folder } from "lucide-react"
+import { Transaction } from '@/types'
 
 export default function DeliverymanPaymentsInfoPage() {
   const [dateRange, setDateRange] = useState<{start: string, end: string}>({
@@ -25,7 +26,7 @@ export default function DeliverymanPaymentsInfoPage() {
   ]
 
   // Empty transactions data
-  const transactions = []
+  const transactions: Transaction[] = []
 
   return (
     <PageLayout>
