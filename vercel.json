@@ -1,0 +1,14 @@
+{
+  "version": 2,
+  "buildCommand": "npm run build",
+  "devCommand": "npm run dev",
+  "installCommand": "npm install",
+  "outputDirectory": ".next",
+  "github": {
+    "silent": true
+  },
+  "env": {
+    "NEXTAUTH_URL": "https://your-vercel-app-url.vercel.app",
+    "NEXTAUTH_SECRET": "${NEXTAUTH_SECRET}"
+  }
+} 

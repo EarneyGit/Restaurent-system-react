@@ -3,10 +3,12 @@
   "version": "1.0.0",
   "description": "Restaurant management dashboard with Next.js and React",
   "scripts": {
-    "dev": "next dev -p 3000",
+    "dev": "next dev -p 3001",
+    "dev:3001": "next dev -p 3001",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "clear-cache": "rm -rf .next && rm -rf node_modules/.cache"
   },
   "keywords": [
     "restaurant",
@@ -17,17 +19,21 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "jose": "^6.0.11",
     "lucide-react": "^0.294.0",
     "next": "^14.0.4",
+    "next-auth": "^4.24.11",
     "next-themes": "^0.2.1",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
-    "recharts": "^2.10.3"
+    "recharts": "^2.10.3",
+    "uuid": "^11.1.0"
   },
   "devDependencies": {
     "@types/node": "^20.10.4",
     "@types/react": "^18.2.42",
     "@types/react-dom": "^18.2.17",
+    "@types/uuid": "^10.0.0",
     "autoprefixer": "^10.4.16",
     "postcss": "^8.4.32",
     "postcss-import": "^15.1.0",
