@@ -3,6 +3,7 @@
 import React, { useState } from "react"
 import { Search, Plus, Pencil, Trash2, List } from "lucide-react"
 import Image from "next/image"
+import Link from "next/link"
 
 interface Brand {
   id: number;
@@ -46,10 +47,12 @@ export default function Brands() {
     <div className="p-6 bg-gray-50 min-h-[calc(100vh-64px)] flex flex-col">
       <div className="flex justify-between items-center mb-6">
         <h1 className="text-2xl font-semibold">Brands</h1>
-        <button className="px-4 py-2 bg-blue-500 text-white rounded-md flex items-center gap-2 hover:bg-blue-600">
-          <Plus className="h-5 w-5" />
-          Add brand
-        </button>
+        <Link href="/brands/add">
+          <button className="px-4 py-2 bg-blue-500 text-white rounded-md flex items-center gap-2 hover:bg-blue-600">
+            <Plus className="h-5 w-5" />
+            Add brand
+          </button>
+        </Link>
       </div>
       
       <div className="flex justify-between items-center mb-6">
