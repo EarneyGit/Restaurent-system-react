@@ -4,9 +4,16 @@ import React, { useState } from 'react'
 import PageLayout from '@/components/layout/page-layout'
 import { Search, PlusCircle, Edit, Trash, Eye, MessageCircle } from 'lucide-react'
 
+interface StaffMember {
+  id: string
+  firstName: string
+  lastName: string
+  email: string
+}
+
 export default function StaffUsersPage() {
   const [activeTab, setActiveTab] = useState('user')
-  const [staffData, setStaffData] = useState([])
+  const [staffData, setStaffData] = useState<StaffMember[]>([])
   const [searchTerm, setSearchTerm] = useState('')
 
   // Tab options
