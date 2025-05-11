@@ -128,9 +128,19 @@ export default function LoginPage({
       </form>
       
       <div className="mt-6 text-center text-sm text-gray-600">
-        <p>Demo Credentials</p>
-        <p>Email: admin@example.com</p>
-        <p>Password: admin123</p>
+        <p className="font-medium mb-2">Demo Credentials</p>
+        <div className="grid grid-cols-2 gap-4 mt-2">
+          <div className="bg-gray-50 p-3 rounded">
+            <p className="font-semibold text-blue-600">Admin</p>
+            <p>Email: admin@example.com</p>
+            <p>Password: admin123</p>
+          </div>
+          <div className="bg-gray-50 p-3 rounded">
+            <p className="font-semibold text-green-600">Branch</p>
+            <p>Email: branch@example.com</p>
+            <p>Password: branch123</p>
+          </div>
+        </div>
       </div>
     </div>
   )

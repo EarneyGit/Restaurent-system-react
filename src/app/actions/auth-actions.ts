@@ -30,6 +30,15 @@ export async function handleLogin(formData: FormData) {
       password: "admin123",
       role: "admin",
       image: "https://www.gravatar.com/avatar/00000000000000000000000000000000?d=mp&f=y"
+    },
+    {
+      id: "2",
+      name: "Branch Manager",
+      email: "branch@example.com",
+      password: "branch123",
+      role: "branch",
+      branchId: "branch-001",
+      image: "https://www.gravatar.com/avatar/00000000000000000000000000000000?d=mp&f=y"
     }
   ]
 
@@ -39,11 +48,24 @@ export async function handleLogin(formData: FormData) {
     redirect("/login?error=CredentialsSignin")
   }
 
-  // Manual auth token
+  console.log("Creating auth cookie with role:", user.role);
+  
+  // SPECIAL COOKIE FOR ROLE DETECTION - very clear flag
+  cookies().set({
+    name: "user-role",
+    value: user.role,
+    httpOnly: false, // Make it readable by client JS
+    path: "/",
+    sameSite: "lax",
+    secure: process.env.NODE_ENV !== "development",
+    maxAge: 30 * 24 * 60 * 60,
+  })
+  
+  // Normal auth cookie
   cookies().set({
     name: "next-auth.session-token",
-    value: `manual-auth-${Date.now()}`,
-    httpOnly: true,
+    value: `user-${user.id}-${user.role}`,
+    httpOnly: false,
     path: "/",
     sameSite: "lax",
     secure: process.env.NODE_ENV !== "development",
@@ -63,7 +85,8 @@ export async function handleSignOut() {
     "next-auth.csrf-token", 
     "__Secure-next-auth.csrf-token", 
     "next-auth.callback-url", 
-    "__Secure-next-auth.callback-url"
+    "__Secure-next-auth.callback-url",
+    "user-role" // Clear our special role cookie
   ]
   
   for (const cookie of cookiesToClear) {

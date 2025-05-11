@@ -4,11 +4,16 @@
   "description": "Restaurant management dashboard with Next.js and React",
   "scripts": {
     "dev": "next dev -p 3001",
-    "dev:3001": "next dev -p 3001",
+    "dev:3000": "next dev -p 3000",
+    "dev:3002": "next dev -p 3002",
+    "dev:3003": "next dev -p 3003",
+    "safe-start": "npx kill-port 3001 || true && npm run clear-cache && npm run dev || npm run dev:3002 || npm run dev:3003",
+    "dev:3001": "PORT=3001 next dev",
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
-    "clear-cache": "rm -rf .next && rm -rf node_modules/.cache"
+    "clear-cache": "rm -rf .next && rm -rf node_modules/.cache",
+    "restart": "npx kill-port 3001 && npm run clear-cache && npm run dev"
   },
   "keywords": [
     "restaurant",

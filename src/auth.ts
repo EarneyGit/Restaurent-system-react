@@ -12,6 +12,14 @@ const users = [
     password: "admin123",
     role: "admin",
     image: "https://www.gravatar.com/avatar/00000000000000000000000000000000?d=mp&f=y"
+  },
+  {
+    id: "2",
+    name: "Branch Manager",
+    email: "branch@example.com",
+    password: "branch123",
+    role: "branch",
+    image: "https://www.gravatar.com/avatar/11111111111111111111111111111111?d=mp&f=y"
   }
 ]
 

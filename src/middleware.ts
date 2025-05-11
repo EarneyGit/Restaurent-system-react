@@ -1,40 +1,71 @@
 import { NextResponse } from 'next/server'
 import type { NextRequest } from 'next/server'
 
-// This function can be marked `async` if using `await` inside
+// Simplified middleware for role-based access
 export function middleware(request: NextRequest) {
+  // Get the pathname of the request
   const { pathname } = request.nextUrl
   
-  // Skip middleware for login page and API routes
+  // Check if it's an asset path that should be allowed
   if (
-    pathname.startsWith('/login') || 
-    pathname.startsWith('/forgot-password') ||
-    pathname.startsWith('/api/') || 
-    pathname.startsWith('/_next/') || 
-    pathname.includes('.')
+    pathname.startsWith('/_next') || 
+    pathname.startsWith('/api') ||
+    pathname.includes('/favicon.ico') ||
+    pathname.match(/\.(png|jpg|svg|js|css)$/)
   ) {
     return NextResponse.next()
   }
   
-  // Check for authentication
-  const sessionCookie = request.cookies.get('next-auth.session-token') || 
-                        request.cookies.get('__Secure-next-auth.session-token')
+  // Get the auth token cookie
+  const userRole = request.cookies.get('user-role')?.value
   
-  // If no session token found, redirect to login
-  if (!sessionCookie) {
-    const loginUrl = new URL('/login', request.url)
-    if (pathname !== '/') {
-      loginUrl.searchParams.set('callbackUrl', pathname)
-    }
-    return NextResponse.redirect(loginUrl)
+  // Allow access to login and forgot password pages
+  if (pathname === '/login' || pathname === '/forgot-password') {
+    return NextResponse.next()
   }
+  
+  // If there's no role cookie, redirect to login
+  if (!userRole) {
+    const url = request.nextUrl.clone()
+    url.pathname = '/login'
+    return NextResponse.redirect(url)
+  }
+  
+  // Branch-specific pages that only branch users should access
+  const branchOnlyPaths = [
+    '/my-branch', 
+    '/staff-users', 
+    '/payment-payloads', 
+    '/waiter-statistics'
+  ]
+  
+  // Admin-specific pages that only admins should access
+  const adminOnlyPaths = [
+    '/backup-maintenance',
+    '/branch-list',
+    '/main-branch',
+    '/app-settings'
+    // Add more admin-only paths here
+  ]
+  
+  // Check if branch user is trying to access admin-only pages
+  if (userRole === 'branch' && adminOnlyPaths.some(path => pathname.startsWith(path))) {
+    // Redirect to dashboard if branch user tries to access admin pages
+    const url = request.nextUrl.clone()
+    url.pathname = '/'
+    return NextResponse.redirect(url)
+  }
+  
+  // Check if admin user is trying to access branch-only pages
+  // We're allowing this for now, so admins can see branch pages
   
   return NextResponse.next()
 }
 
-// Use a simple matcher without capturing groups or complex regex
+// Define paths to match for middleware
 export const config = {
   matcher: [
-    '/((?!api|_next|login|forgot-password).*)',
-  ],
+    // Match all paths except static files and API routes
+    '/((?!_next|api|favicon.ico).*)'
+  ]
 } 
